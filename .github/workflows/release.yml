@@ -1,27 +1,45 @@
 name: release
-on:
-  push:
-    tags:
+#on:
+#  push:
+#    tags:
+#      - "rc-0.0.*"
 
-      - "rc-0.0.*"
+on: [ workflow_dispatch, push ]
 
 jobs:
-  release:
+  test:
     runs-on: ubuntu-latest
-    env:
-      HOST: ${{ secrets.HOST }}
-      OAUTH: ${{ secrets.OAUTH }}
-      TASK: ${{ secrets.TASK }}
-      XORGID: ${{ secrets.XORGID }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.16.0'
-          cache: "npm"
-      - name: Install dependencies
-        run: npm install
-      - name: release
-        run: npm run release
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+        - uses: actions/setup-node@v3
+          with:
+              node-version: '16.16.0'
+
+        - name: "Install dependencies"
+          run: npm install
+
+        - run: npm run ts
+        - run: npm run lint
+        - run: npm run test
+
+#  release:
+#    runs-on: ubuntu-latest
+#    env:
+#      HOST: ${{ secrets.HOST }}
+#      OAUTH: ${{ secrets.OAUTH }}
+#      TASK: ${{ secrets.TASK }}
+#      XORGID: ${{ secrets.XORGID }}
+#    steps:
+#      - uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 0
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '16.16.0'
+#          cache: "npm"
+#      - name: Install dependencies
+#        run: npm install
+#      - name: release
+#        run: npm run release
