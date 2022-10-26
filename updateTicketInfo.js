@@ -66,6 +66,11 @@ const updateTicketInfo = async () => {
     const description = `Ответственный за релиз: ${pusher}\n---\nКоммиты, попавшие в релиз:\n${commits}`;
 
 
+    console.log(summary)
+    console.log(description)
+
+    console.log(`${HOST}/v2/issues/${ISSUE_ID}`, OAUTH, ORG_ID)
+
     await fetch(`${HOST}/v2/issues/${ISSUE_ID}`, {
         method: "PATCH",
         headers,
