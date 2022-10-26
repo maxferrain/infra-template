@@ -69,7 +69,7 @@ const updateTicketInfo = async () => {
         method: "PATCH",
         headers,
         body: JSON.stringify({
-            // summary,
+            summary,
             description
         })
     })
