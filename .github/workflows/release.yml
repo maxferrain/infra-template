@@ -18,25 +18,25 @@ jobs:
         - run: npm run ts
         - run: npm run lint
         - run: npm run test
-release:
-  runs-on: ubuntu-latest
-  if: github.ref_type == 'tag'
-  needs: test
-  steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '16.16.0'
+  release:
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+    needs: test
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.16.0'
 
-    - name: "Install dependencies"
-      run: npm install
+      - name: "Install dependencies"
+        run: npm install
 
-    - name: "Update"
-      env:
-        OAUTH: ${{ secrets.OAUTH }}
-        ORG_ID: ${{ secrets.ORG_ID }}
-        ISSUE_ID: ${{ secrets.ISSUE_ID }}
-        HOST: ${{ secrets.HOST }}
-      run: node updateTicketInfo.js
+      - name: "Update"
+        env:
+          OAUTH: ${{ secrets.OAUTH }}
+          ORG_ID: ${{ secrets.ORG_ID }}
+          ISSUE_ID: ${{ secrets.ISSUE_ID }}
+          HOST: ${{ secrets.HOST }}
+        run: node updateTicketInfo.js
