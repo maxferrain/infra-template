@@ -13,7 +13,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "dotenv": "^16.0.3",
-    "node-fetch": "2.6.7",
+    "node-fetch": "2.6.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
