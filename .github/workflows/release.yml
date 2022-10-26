@@ -40,3 +40,10 @@ jobs:
           ISSUE_ID: ${{ secrets.ISSUE_ID }}
           HOST: ${{ secrets.HOST }}
         run: node updateTicketInfo.js
+      - name: "Build"
+        env:
+          OAUTH: ${{ secrets.OAUTH }}
+          ORG_ID: ${{ secrets.ORG_ID }}
+          ISSUE_ID: ${{ secrets.ISSUE_ID }}
+          HOST: ${{ secrets.HOST }}
+        run: node build.js
