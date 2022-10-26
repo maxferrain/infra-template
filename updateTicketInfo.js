@@ -69,9 +69,7 @@ const updateTicketInfo = async () => {
     console.log(summary)
     console.log(description)
 
-    console.log(`${HOST}/v2/issues/${ISSUE_ID}`, OAUTH, ORG_ID)
-
-    await fetch(`${HOST}/v2/issues/${ISSUE_ID}`, {
+    const req = await fetch(`${HOST}/v2/issues/${ISSUE_ID}`, {
         method: "PATCH",
         headers,
         body: JSON.stringify({
@@ -79,6 +77,10 @@ const updateTicketInfo = async () => {
             description
         })
     })
+
+    req
+        .then(() => console.log('ok'))
+        .catch((e) => console.log('error', e))
 }
 
 
