@@ -65,6 +65,7 @@ const updateTicketInfo = async () => {
     const summary = `Релиз №${currentTag.replace("rc-", "")} от ${date}`;
     const description = `Ответственный за релиз: ${pusher}\n---\nКоммиты, попавшие в релиз:\n${commits}`;
 
+
     await fetch(`${HOST}/v2/issues/${ISSUE_ID}`, {
         method: "PATCH",
         headers,
