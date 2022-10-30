@@ -12,9 +12,9 @@ const headers = {
 
 const build = async () => {
     const currentTag = github.context.payload.ref.replace("refs/tags/", "") ?? ""
-    console.log(`currentTag ${currentTag}`)
+    console.log(`current tag -  ${currentTag}`)
 
-    await exec.exec('docker', ['build', '-t', `app:${currentTag}`, '.']);
+    await exec.exec('docker', ['build', '-t', `app:${currentTag}`, '.'])
     console.info("Image build");
 
     await fetch(`${HOST}/v2/issues/${ISSUE_ID}/comments`, {
@@ -23,10 +23,11 @@ const build = async () => {
         body: JSON.stringify({
             text: `Собрали образ с тегом ${currentTag}`
         })
-    });
+    })
 
-    console.info("Comment added");
+    console.log("Comment log added")
 }
 
 build()
     .then(() => console.log("Success build image"))
+    .catch((e) => console.log(e))
