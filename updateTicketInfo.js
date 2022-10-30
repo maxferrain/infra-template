@@ -11,27 +11,21 @@ const headers = {
 }
 
 const execute = async (command, args) => {
-    let output = ""
-    let error = ""
+    let output = ''
+    let error = ''
 
     const options = {}
+
     options.listeners = {
-        stdout: (data) => {
-            output += data.toString();
-        },
-        stderr: (data) => {
-            error += data.toString();
-        }
-    };
+        stdout: (data) => output += data.toString(),
+        stderr: (data) => error += data.toString()
+    }
 
     await exec.exec(command, args, options)
 
-    if (error) {
-        throw new Error(`Unable to execute ${command}`)
-    }
+    if (error) throw new Error(`Unable to execute ${command}`)
     return output
 }
-
 
 const getTags = async () => {
     return (await execute('git', ['tag'])).split("\n")
@@ -39,8 +33,8 @@ const getTags = async () => {
         .sort((a, b) => {
             const aVal = parseInt(a.replace("rc-0.0.", ""), 10);
             const bVal = parseInt(b.replace("rc-0.0.", ""), 10);
-            return aVal - bVal;
-        });
+            return aVal - bVal
+        })
 }
 
 const getCommitsInfo = async (tag) => {
@@ -51,16 +45,15 @@ const getCommitsInfo = async (tag) => {
     return releaseCommits.replace(/"/g, "");
 }
 
-
 const updateTicketInfo = async () => {
     const currentTag = github.context.payload.ref.replace("refs/tags/", "") ?? ""
-    console.log(`currentTag ${currentTag}`)
+    console.log(`current Tag - ${currentTag}`)
     const commits = await getCommitsInfo(currentTag)
+    const pusher = github.context.payload.pusher?.name ?? ''
+    console.log(`Pusher - ${pusher}`)
 
-    const pusher = github.context.payload.pusher?.name ?? ""
-    console.log(`Pusher ${pusher}`)
     const date = new Date().toLocaleDateString()
-    console.log(`Date ${date}`)
+    console.log(`Date - ${date}`)
 
     const summary = `Релиз №${currentTag.replace("rc-", "")} от ${date}`;
     const description = `Ответственный за релиз: ${pusher}\n---\nКоммиты, попавшие в релиз:\n${commits}`;
@@ -77,7 +70,6 @@ const updateTicketInfo = async () => {
         })
     })
 }
-
 
 updateTicketInfo()
     .then(() => console.log('Successful updating'))
