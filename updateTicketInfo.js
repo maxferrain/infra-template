@@ -65,11 +65,10 @@ const updateTicketInfo = async () => {
     const summary = `Релиз №${currentTag.replace("rc-", "")} от ${date}`;
     const description = `Ответственный за релиз: ${pusher}\n---\nКоммиты, попавшие в релиз:\n${commits}`;
 
-
     console.log(summary)
     console.log(description)
 
-    const req = await fetch(`${HOST}/v2/issues/${ISSUE_ID}`, {
+    await fetch(`${HOST}/v2/issues/${ISSUE_ID}`, {
         method: "PATCH",
         headers,
         body: JSON.stringify({
@@ -77,10 +76,6 @@ const updateTicketInfo = async () => {
             description
         })
     })
-
-    req
-        .then(() => console.log('ok'))
-        .catch((e) => console.log('error', e))
 }
 
 

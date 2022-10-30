@@ -13,8 +13,7 @@ jobs:
               node-version: '16.16.0'
 
         - name: "Install dependencies"
-          run: npm install
-
+          run: npm ci
 
         - run: npm run ts
         - run: npm run lint
@@ -22,7 +21,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag'
+
     needs: test
+
     steps:
         - uses: actions/checkout@v3
           with:
@@ -32,7 +33,7 @@ jobs:
             node-version: '16.16.0'
 
         - name: "Install dependencies"
-          run: npm install
+          run: npm ci
 
         - name: "Update"
           env:
@@ -41,6 +42,7 @@ jobs:
             ISSUE_ID: ${{ secrets.ISSUE_ID }}
             HOST: ${{ secrets.HOST }}
           run: node updateTicketInfo.js
+
         - name: "Build"
           env:
             OAUTH: ${{ secrets.OAUTH }}
