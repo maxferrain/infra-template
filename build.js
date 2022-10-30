@@ -15,7 +15,7 @@ const build = async () => {
     console.log(`current tag -  ${currentTag}`)
 
     await exec.exec('docker', ['build', '-t', `app:${currentTag}`, '.'])
-    console.info("Image build");
+    console.info("Image build")
 
     await fetch(`${HOST}/v2/issues/${ISSUE_ID}/comments`, {
         method: "POST",
